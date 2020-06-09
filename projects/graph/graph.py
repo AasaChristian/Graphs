@@ -13,26 +13,43 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
+
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2) 
+        else:
+            raise IndexError("Vertex does not exist")
+
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        q = Queue()
+        q.enqueue(starting_vertex)
+        visited = set()
+
+        while q.size() > 0:
+            v = q.dequeue()
+
+            if v not in visited:
+                print(v)
+                visited.add(v)
+
+                for next_vert in self.get_neighbors(v):
+                    q.enqueue(next_vert)
 
     def dft(self, starting_vertex):
         """
@@ -56,7 +73,34 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # Create an empty queue and enqueue A PATH TO the starting vertex ID
+        q = Queue()
+        q.enqueue(starting_vertex)
+		# Create a Set to store visited vertices
+        vistited = set()
+		# While the queue is not empty...
+        while q.size() > 0:
+            print(q.size(), "q.size")
+			# Dequeue the first PATH
+            path = q.dequeue()
+            print(path, "path")
+			# Grab the last vertex from the PATH
+            v = path[-1]
+			# If that vertex has not been visited...
+            if v not in vistited:
+				# CHECK IF IT'S THE TARGET
+                if v == destination_vertex:
+				  # IF SO, RETURN PATH
+                    return path
+                vistited.add(v)
+				# Mark it as visited...
+				# Then add A PATH TO its neighbors to the back of the queue
+                for neighbors in self.get_neighbors(v):
+                    path_copy = list(path)
+                    path_copy.append(neighbors)
+                    q.enqueue(path_copy)
+				  # COPY THE PATH
+				  # APPEND THE NEIGHOR TO THE BACK
 
     def dfs(self, starting_vertex, destination_vertex):
         """
